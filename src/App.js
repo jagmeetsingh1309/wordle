@@ -1,9 +1,9 @@
-import GridCell from './components/GridCell';
+import GridRowContainer from './components/GridRowContainer';
 
 function App() {
   return (
-    <div className="App">
-      <GridCell />
+    <div className="App d-flex justify-content-center">
+      <GridRowContainer />
     </div>
   );
 }

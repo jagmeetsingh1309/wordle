@@ -1,23 +1,11 @@
 import React from 'react';
 
-class GridCell extends React.Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            backgroundColor: "",
-            alphabetValue: ""
-        }
-    }
-
-
-    render = () => {
-        return (
-            <div className="card">
-                <h1>{this.state.alphabetValue}</h1>
-            </div>
-        );
-    }
+const GridCell = props => {
+    return (
+        <div className="card text-center m-1" style={{"width":"5rem", "height":"3rem" }}>
+            <h3>{props.alphabetValue}</h3>
+        </div>
+    );
 }
 
 export default GridCell;
