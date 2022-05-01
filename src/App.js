@@ -6,7 +6,7 @@ function App() {
     <div className='App'>
       <Header />
       <div className="d-flex justify-content-center">
-        <GridRowContainer />
+        <GridRowContainer guessCount={5} />
       </div>
     </div>
   );

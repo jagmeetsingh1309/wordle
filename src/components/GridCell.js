@@ -1,11 +1,23 @@
 import React from 'react';
 
-const GridCell = props => {
-    return (
-        <div className="card text-center m-1" style={{"width":"5rem", "height":"3rem" }}>
-            <h3>{props.alphabetValue}</h3>
-        </div>
-    );
+class GridCell extends React.Component {
+    state = {
+        alphabetValue: ''
+    }
+
+    handleCellUpdateValue = val => {
+        this.setState({
+            alphabetValue: val
+        })
+    }
+
+    render = () => {
+        return (
+            <div className="card text-center" style={{margin:"3px","width":"4rem", "height":"3rem",borderWidth:'2px'}}>
+                <h3>{this.state.alphabetValue}</h3>
+            </div>
+        );
+    }
 }
 
 export default GridCell;
