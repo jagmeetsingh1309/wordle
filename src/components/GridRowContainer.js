@@ -23,12 +23,9 @@ class GridRowContainer extends React.Component {
     handleKeyDown = event => {
         if(event.keyCode >= 65 && event.keyCode <= 90){
             // key is alphabet
-            this.gridRowRef[this.state.currentRow].handleUpdate(event.key,this.state.currentCell);
+            this.gridRowRef[this.state.currentRow].handleRowUpdate(event.key,this.state.currentCell);
             if(this.state.currentCell === this.state.wordLength-1){
-                this.setState({
-                    ...this.state,
-                    currentCell: 0
-                });
+                // Do nothing.
             } else {
                 this.setState({
                     ...this.state,
@@ -37,6 +34,17 @@ class GridRowContainer extends React.Component {
             }
         } else if(event.keyCode === 8){
             // key is backspace
+            this.gridRowRef[this.state.currentRow].handleRowUpdate('',this.state.currentCell);
+        }
+        else if(event.keyCode === 13){
+            // key is enter
+            // 1. print the result of current word/row.
+            console.log("current guess is: ", this.gridRowRef[this.state.currentRow].returnCurrentGuess());
+            this.setState({
+                ...this.state,
+                currentCell: 0,
+                currentRow: this.state.currentRow+1
+            });
         }
     }
 
