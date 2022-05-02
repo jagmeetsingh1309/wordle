@@ -15,9 +15,17 @@ class GridRowContainer extends React.Component {
         super(props);
         for(let i = 0; i < this.props.guessCount; i++){
             this.gridRowList.push(
-                <GridRow ref={el => this.gridRowRef.push(el)} key={i} wordLength={this.state.wordLength} />
+                <GridRow
+                    ref={el => this.gridRowRef.push(el)} 
+                    key={i} 
+                    wordLength={this.state.wordLength} 
+                />
             )
         }
+    }
+
+    componentDidMount = () => {     
+        document.addEventListener("keydown",this.handleKeyDown);
     }
 
     handleKeyDown = event => {
@@ -39,18 +47,13 @@ class GridRowContainer extends React.Component {
         else if(event.keyCode === 13){
             // key is enter
             // 1. print the result of current word/row.
-            // console.log("current guess is: ", this.gridRowRef[this.state.currentRow].returnCurrentGuess());
-            this.gridRowRef[this.state.currentRow].computeResult();
+            this.gridRowRef[this.state.currentRow].computeResult(this.props.currentWord);
             this.setState({
                 ...this.state,
                 currentCell: 0,
                 currentRow: this.state.currentRow+1
             });
         }
-    }
-
-    componentDidMount = () => {     
-        document.addEventListener("keydown",this.handleKeyDown);
     }
     
     render = () => {
