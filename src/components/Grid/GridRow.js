@@ -1,6 +1,7 @@
 import React from 'react';
 import GridCell from './GridCell';
 
+import { COLOR_BLACK, COLOR_GREEN, COLOR_YELLOW } from "../Constants";
 
 class GridRow extends React.Component {
     
@@ -8,7 +9,8 @@ class GridRow extends React.Component {
     gridCellRef = [];
 
     state = {
-        currentGuess: ''
+        currentGuess: '',
+        givenWord: 'apple'
     }
 
     constructor(props){
@@ -32,7 +34,20 @@ class GridRow extends React.Component {
         
     }
 
-    returnCurrentGuess = () => this.state.currentGuess
+    computeResult = () => {
+        let { currentGuess,givenWord } = this.state;
+        for(let i = 0; i < currentGuess.length; i++){
+            if(givenWord.includes(currentGuess[i])){
+                this.gridCellRef[i].handleUpdateColor(COLOR_YELLOW);
+            } else {
+                this.gridCellRef[i].handleUpdateColor(COLOR_BLACK);
+            }
+            if(currentGuess[i] === givenWord[i]){
+                this.gridCellRef[i].handleUpdateColor(COLOR_GREEN);
+            }
+        }
+
+    }
 
     render = () => {
         return (

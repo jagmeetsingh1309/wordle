@@ -39,7 +39,8 @@ class GridRowContainer extends React.Component {
         else if(event.keyCode === 13){
             // key is enter
             // 1. print the result of current word/row.
-            console.log("current guess is: ", this.gridRowRef[this.state.currentRow].returnCurrentGuess());
+            // console.log("current guess is: ", this.gridRowRef[this.state.currentRow].returnCurrentGuess());
+            this.gridRowRef[this.state.currentRow].computeResult();
             this.setState({
                 ...this.state,
                 currentCell: 0,
