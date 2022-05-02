@@ -1,25 +1,28 @@
 import React from 'react';
 
 class GridCell extends React.Component {
+
     state = {
         alphabetValue: '',
         bgColor: 'white',
         textColor: 'black'
     }
 
-    handleCellUpdateValue = val => {
-        this.setState({
-            alphabetValue: val
-        })
-    }
+    resetCellCurrentState = () => this.setState({
+        alphabetValue: '',
+        bgColor: 'white',
+        textColor: 'black'
+    });
 
-    handleUpdateColor = color => {
-        this.setState({
-            ...this.state,
-            bgColor: color,
-            textColor: 'white'
-        })
-    }
+    handleCellUpdateValue = val => this.setState({
+        alphabetValue: val
+    });
+
+    handleUpdateColor = color => this.setState({
+        ...this.state,
+        bgColor: color,
+        textColor: 'white'
+    });
 
     render = () => {
         return (

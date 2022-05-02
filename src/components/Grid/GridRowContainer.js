@@ -2,64 +2,80 @@ import React from "react";
 import GridRow from "./GridRow";
 
 class GridRowContainer extends React.Component {
-    
-    gridRowList = [];
-    gridRowRef = [];
-    state = {
-        currentRow: 0,
-        currentCell: 0,
-        wordLength:5
-    }
 
-    constructor(props) {
-        super(props);
-        for(let i = 0; i < this.props.guessCount; i++){
-            this.gridRowList.push(
-                <GridRow
-                    ref={el => this.gridRowRef.push(el)} 
-                    key={i} 
-                    wordLength={this.state.wordLength} 
-                />
-            )
-        }
+    state = {
+        gridRowList: [],
+        gridRowRef: [],
+        currentRow: 0,
+        currentCell: -1
     }
 
     componentDidMount = () => {     
-        document.addEventListener("keydown",this.handleKeyDown);
+        let { gridRowList,gridRowRef } = this.state;
+        if(gridRowList.length === 0){
+            for(let i = 0; i < this.props.guessCount; i++){
+                gridRowList.push(
+                    <GridRow
+                        ref={el => gridRowRef.push(el)} 
+                        key={i} 
+                        wordLength={this.props.wordLength} 
+                    />
+                )
+            }
+        }
     }
 
-    handleKeyDown = event => {
-        if(event.keyCode >= 65 && event.keyCode <= 90){
-            // key is alphabet
-            this.gridRowRef[this.state.currentRow].handleRowUpdate(event.key,this.state.currentCell);
-            if(this.state.currentCell === this.state.wordLength-1){
-                // Do nothing.
-            } else {
-                this.setState({
-                    ...this.state,
-                    currentCell: this.state.currentCell+1
-                });
-            }
-        } else if(event.keyCode === 8){
-            // key is backspace
-            this.gridRowRef[this.state.currentRow].handleRowUpdate('',this.state.currentCell);
-        }
-        else if(event.keyCode === 13){
-            // key is enter
-            // 1. print the result of current word/row.
-            this.gridRowRef[this.state.currentRow].computeResult(this.props.currentWord);
+    handleAlphabetValue = key => {
+        let { gridRowRef,currentCell,currentRow } = this.state;
+        if(currentCell < 4){
+            gridRowRef[currentRow].handleRowUpdate(key,currentCell+1);
             this.setState({
                 ...this.state,
-                currentCell: 0,
-                currentRow: this.state.currentRow+1
+                currentCell: currentCell+1
             });
+            if(currentCell === 4){
+                this.setState({
+                    ...this.state,
+                    currentCell: currentCell
+                });
+            }
         }
+    }
+
+    handleBackSpaceValue = () => {
+        let { currentCell,currentRow,gridRowRef } = this.state;
+        this.setState({
+            ...this.state,
+            currentCell: currentCell-1
+        });
+        gridRowRef[currentRow].handleRowUpdate('',currentCell);
+    }
+
+    handleEnterKey = (currentWord,wordGuessed) => {
+        let { gridRowRef,currentRow } = this.state;
+        let result = gridRowRef[currentRow].computeResult(currentWord,wordGuessed);
+        if(result === false){
+            this.setState({
+                ...this.state,
+                currentCell: -1,
+                currentRow: currentRow+1
+            });
+        } 
+    }
+
+    resetContainer = () => {
+        this.state.gridRowRef.forEach(gridRow => gridRow.clearCurrentRow());
+        this.setState({
+            ...this.state,
+            currentCell: -1,
+            currentRow: 0
+        });
     }
     
     render = () => {
         return (
             <div className="m-2">
-                {this.gridRowList}
+                {this.state.gridRowList}
             </div>
         );
     }
