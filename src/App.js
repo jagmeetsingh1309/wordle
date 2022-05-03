@@ -1,6 +1,7 @@
 import React, { createRef } from 'react';
 import './App.css';
 import GridRowContainer from './components/Grid/GridRowContainer';
+import HelpModal from './components/Layout/HelpModal';
 import Header from './components/Layout/Header';
 import { getRandomWord } from './components/Utility/RestService';
 // import KeyboardComponent from './components/Keyboard/KeyboardComponent';
@@ -14,6 +15,7 @@ class App extends React.Component {
     wordGuessed: '',
     currentScore: 0,
     showStat: false,
+    showHelpModal: false,
     guessCount: 5,
     wordLength: 5
   }
@@ -65,11 +67,17 @@ class App extends React.Component {
     });
   }
 
+  toggleHelpModal = () => {
+    console.log("toggleHelpModal clicked");
+    this.setState({...this.state,showHelpModal: !this.state.showHelpModal });
+  }
+
   render = () => {
-    let { currentWord,guessCount,wordLength } = this.state;
+    let { currentWord,guessCount,wordLength,showHelpModal } = this.state;
     return (
       <div className='App'>
-        <Header />
+        { showHelpModal && <HelpModal showModal={showHelpModal} toggleHelpModal={this.toggleHelpModal} />}
+        <Header toggleHelpModal={this.toggleHelpModal} />
         <div className="d-flex justify-content-center">
           <GridRowContainer 
             ref={this.grid}
